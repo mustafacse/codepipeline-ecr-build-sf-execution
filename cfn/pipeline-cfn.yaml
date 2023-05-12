@@ -103,8 +103,10 @@ Resources:
           phases:
             pre_build:
               commands:
+                - echo docker info
+                - docker info
                 - printenv | less
-                - $(aws ecr get-login-password --no-include-email)
+                - aws ecr get-login-password --region us-west-2| docker login --username AWS --password-stdin 606635778254.dkr.ecr.us-west-2.amazonaws.com
                 - dt=`date '+%m-%d-%Y-%H-%M-%S'`
                 - TAG="$(echo $CODEBUILD_RESOLVED_SOURCE_VERSION | head -c 8)-${dt}"                
                 - IMAGE_URI="${REPOSITORY_URI}:${TAG}"
